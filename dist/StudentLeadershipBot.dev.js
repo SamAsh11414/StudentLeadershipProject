@@ -29,6 +29,21 @@ client.on('message', function (message) {
 
     var taggedUser = message.mentions.users.first();
     message.channel.send("You hugged: ".concat(taggedUser.username));
+  } else if (message.channel.send('avatar')) {
+    if (!message.mentions.users.size) {
+      return message.channel.send("<".concat(message.author.displayAvatarURL({
+        format: "png",
+        dynamic: true
+      }), ">"));
+    }
+
+    var avatarList = message.mentions.users.map(function (user) {
+      return "".concat(user.username, "'s avatar: <").concat(user.displayAvatarURL({
+        format: "png",
+        dynamic: true
+      }), ">");
+    });
+    message.channel.send(avatarList);
   } else if (command === 'args-info') {
     if (!args.length) {
       return message.channel.send("You didn't provide any arguments, ".concat(message.author, "!"));

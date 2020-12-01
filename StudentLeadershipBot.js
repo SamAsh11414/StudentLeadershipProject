@@ -30,6 +30,16 @@ client.on('message', message => {
         const taggedUser = message.mentions.users.first();
 
         message.channel.send(`You hugged: ${taggedUser.username}`);
+    } else if (message.channel.send ('avatar')) {
+        if (!message.mentions.users.size) {
+            return message.channel.send(`<${message.author.displayAvatarURL({ format: "png", dynamic: true })}>`);
+        }
+    
+        const avatarList = message.mentions.users.map(user => {
+            return `${user.username}'s avatar: <${user.displayAvatarURL({ format: "png", dynamic: true })}>`;
+        });
+    
+        message.channel.send(avatarList);
     } else if (command === 'args-info') {
         if (!args.length) {
             return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
@@ -37,6 +47,7 @@ client.on('message', message => {
     
         message.channel.send(`Command name: ${command}\nArguments: ${args}`);
     } 
+    
 });
 
 
