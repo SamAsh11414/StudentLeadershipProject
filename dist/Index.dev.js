@@ -43,6 +43,13 @@ try {
 
 client.on('ready', function () {
   console.log('bot is ready');
+  client.user.setPresence({
+    status: "online",
+    game: {
+      name: "SamAsh#6197 Program Me",
+      type: "Streaming"
+    }
+  });
 });
 client.on('message', function (message) {
   if (!message.content.startsWith(prefix) || message.author.bot) return;

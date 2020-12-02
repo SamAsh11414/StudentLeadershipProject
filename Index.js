@@ -18,6 +18,13 @@ for (const file of commandFiles) {
 
 client.on('ready', () => {
     console.log('bot is ready');
+    client.user.setPresence({
+        status: "online",
+        game: {
+            name: "SamAsh#6197 Program Me",
+            type: "Streaming"
+        }
+    });
 
 });
 
