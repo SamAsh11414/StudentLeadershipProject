@@ -1,2 +1,3 @@
-# Dadbot.js Discord
- Makes dad jokes
+# Student Leadership Bot
+
+Freshman BTHS Discord server
