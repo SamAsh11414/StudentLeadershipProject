@@ -6,8 +6,10 @@ var fs = require('fs');
 var Discord = require('discord.js');
 
 var _require = require('./config.json'),
-    prefix = _require.prefix,
-    token = _require.token;
+    prefix = _require.prefix;
+
+var _require2 = require('./Token.json'),
+    token = _require2.token;
 
 var client = new Discord.Client();
 client.commands = new Discord.Collection();
