@@ -4,8 +4,11 @@ const Discord = require('discord.js');
 const { prefix } = require('./config.json');
 const { token } = require('./Token.json');
 const { kMaxLength } = require('buffer');
+const Keyv = require('keyv'); 
+const keyv = new Keyv('mongodb://user:pass@localhost:27017/SL_bot')
 
 const client = new Discord.Client();
+const prefixes = new Keyv('sqlite://path/to.sqlite');
 client.commands = new Discord.Collection();
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -15,8 +18,29 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 
+const meetings = new Map();
+function addMeeting(name, date, time, description) { meetings.add(new Date())}
 
+keyv.on('error', err => console.error('Keyv connection error:', err))
 
+function iterFromString(string) {
+    return string[Symbol.iterator]();
+}
+
+function until(fn, iterator) {
+    let result = '';
+    for (
+        let nextChar = iterator.next();
+        !fn(nextChar.value);
+        nextChar = iterator.next()
+    ) {
+        if (nextChar.done) break;
+        result += nextChar.value;
+    }
+    return result;
+}
+
+function whitespace(char) { return char === ' ' }
 
 client.on('ready', () => {
     console.log('bot is ready');
@@ -30,77 +54,52 @@ client.on('ready', () => {
 
 });
 
-client.on('message', message => {
+client.on('message', async message => {
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
     const args = message.content.slice(prefix.length).trim().split('/ +/');
-    const command = args.shift().toLowerCase();
+    // const command = args.shift().toLowerCase();
 
-    
+    const iter = iterFromString(message.content);
+    const commandString = until(whitespace, iter);
 
-    if (message.content === '!help') {
-        const exampleEmbed = new Discord.MessageEmbed()
-	.setColor('#F07C0F')
-	.setTitle('Help')
-	.setDescription('You came to the right place for help!')
-	.addFields(
-		{ name: 'List of commands this bot has', value: '@SamAsh#6197 is always looking for things to add' },
-		{ name: '\u200B', value: '\u200B' },
-		{ name: '!help', value: 'Opens a help menu', inline: true },
-        { name: '!server:', value: 'Provides basic information on the server', inline: true },
-        { name: '!hug', value: 'Give someone in the server a hug, cause they might need it.', inline: true },
-        { name: '!froshpres', value: 'Displays the contact information for The Freshman President', inline: true },
-        { name: '!froshvp', value: 'Displays the contact information for The Freshman Vice President', inline: true },
-        { name: '!froshtreasurer', value: 'Displays the contact information for The Freshman Treasurer', inline: true },
-        { name: '!froshsec', value: 'Displays the contact information for the Freshman Secretary', inline: true },
-        { name: '!froshparli', value: 'Displays the contact information for The Freshman Parlimentarian', inline: true },
-        { name: '!froshcouncil', value: 'Displays the contact information for the entire Freshman Executive Board', inline: true },
-	)
-	.setTimestamp()
-    .setFooter('Bot created by Samuel Ashkenas', 'https://Sammyashkenas.com');
-    message.channel.send(exampleEmbed);
-
-    } 
-    
-    else if (message.content === '!server') {
-        client.commands.get('server').execute(message, args);
-        
-    } 
-    
-    else if (message.content.startsWith ('!hug')) {
-        client.commands.get('hug').execute(message, args);
-    } 
-    
-    else if (message.content.startsWith ('!froshtreasurer')) {
-        client.commands.get('tres').execute(message, args);
-    } 
-    
-    else if (message.content.startsWith ('!froshpres')) {
-        client.commands.get('pres').execute(message, args);
-    }
-
-    else if (message.content.startsWith ('!froshvp')) {
-        client.commands.get('vp').execute(message, args);
-    }
-
-    else if (message.content.startsWith ('!froshsec')) {
-        client.commands.get('sec').execute(message, args);
-    }
-
-    else if (message.content.startsWith ('!froshparli')) {
-        client.commands.get('parli').execute(message, args);
-    }
-
-    else if (message.content.startsWith ("!froshcouncil")) {
-        client.commands.get('pres').execute(message, args);
-        client.commands.get('vp').execute(message, args);
-        client.commands.get('tres').execute(message, args);
-        client.commands.get('sec').execute(message, args);
-        client.commands.get('parli').execute(message, args);
-    }
-    
-    else if (message.content.startsWith ("!fundraising")) {
-        client.commands.get('?tres').execute(message, args);
+    switch (commandString) {
+        case '!help':
+            client.commands.get('help').execute(message, args);
+            break;
+        case '!server':
+            client.commands.get('server').execute(message, args);
+        case '!hug': 
+            client.commands.get('hug').execute(message, args);
+            break;
+        case '!froshtreasurer': 
+            client.commands.get('tres').execute(message, args);
+            break;
+        case '!froshpres': 
+            client.commands.get('pres').execute(message, args);
+            break;
+        case '!froshvp': 
+            client.commands.get('vp').execute(message, args);
+            break;
+        case '!froshsec': 
+            client.commands.get('sec').execute(message, args);
+            break;
+        case '!froshparli': 
+            client.commands.get('parli').execute(message, args);
+            break;
+        case '!froshcouncil':
+            client.commands.get('pres').execute(message, args);
+            client.commands.get('vp').execute(message, args);
+            client.commands.get('tres').execute(message, args);
+            client.commands.get('sec').execute(message, args);
+            client.commands.get('parli').execute(message, args);
+            break;
+        case '!':
+            client.command.get('').execute(message, args);
+            break;
+        case '!fundraising':
+            client.commands.get('?tres').execute(message, args);
+            break;
     }
 });
 
