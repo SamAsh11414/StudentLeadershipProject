@@ -81,6 +81,9 @@ client.on('message', async message => {
         case '!froshvp': 
             client.commands.get('vp').execute(message, args);
             break;
+        case '!events':
+            client.commands.get('events').execute(message, args);
+            break;
         case '!froshsec': 
             client.commands.get('sec').execute(message, args);
             break;

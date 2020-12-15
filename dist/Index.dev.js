@@ -108,57 +108,61 @@ client.on('message', function _callee(message) {
           iter = iterFromString(message.content);
           commandString = until(whitespace, iter);
           _context.t0 = commandString;
-          _context.next = _context.t0 === '!help' ? 8 : _context.t0 === '!server' ? 10 : _context.t0 === '!hug' ? 11 : _context.t0 === '!froshtreasurer' ? 13 : _context.t0 === '!froshpres' ? 15 : _context.t0 === '!froshvp' ? 17 : _context.t0 === '!froshsec' ? 19 : _context.t0 === '!froshparli' ? 21 : _context.t0 === '!froshcouncil' ? 23 : _context.t0 === '!' ? 29 : _context.t0 === '!fundraising' ? 31 : 33;
+          _context.next = _context.t0 === '!help' ? 8 : _context.t0 === '!server' ? 10 : _context.t0 === '!hug' ? 11 : _context.t0 === '!froshtreasurer' ? 13 : _context.t0 === '!froshpres' ? 15 : _context.t0 === '!froshvp' ? 17 : _context.t0 === '!events' ? 19 : _context.t0 === '!froshsec' ? 21 : _context.t0 === '!froshparli' ? 23 : _context.t0 === '!froshcouncil' ? 25 : _context.t0 === '!' ? 31 : _context.t0 === '!fundraising' ? 33 : 35;
           break;
 
         case 8:
           client.commands.get('help').execute(message, args);
-          return _context.abrupt("break", 33);
+          return _context.abrupt("break", 35);
 
         case 10:
           client.commands.get('server').execute(message, args);
 
         case 11:
           client.commands.get('hug').execute(message, args);
-          return _context.abrupt("break", 33);
+          return _context.abrupt("break", 35);
 
         case 13:
           client.commands.get('tres').execute(message, args);
-          return _context.abrupt("break", 33);
+          return _context.abrupt("break", 35);
 
         case 15:
           client.commands.get('pres').execute(message, args);
-          return _context.abrupt("break", 33);
+          return _context.abrupt("break", 35);
 
         case 17:
           client.commands.get('vp').execute(message, args);
-          return _context.abrupt("break", 33);
+          return _context.abrupt("break", 35);
 
         case 19:
-          client.commands.get('sec').execute(message, args);
-          return _context.abrupt("break", 33);
+          client.commands.get('events').execute(message, args);
+          return _context.abrupt("break", 35);
 
         case 21:
-          client.commands.get('parli').execute(message, args);
-          return _context.abrupt("break", 33);
+          client.commands.get('sec').execute(message, args);
+          return _context.abrupt("break", 35);
 
         case 23:
+          client.commands.get('parli').execute(message, args);
+          return _context.abrupt("break", 35);
+
+        case 25:
           client.commands.get('pres').execute(message, args);
           client.commands.get('vp').execute(message, args);
           client.commands.get('tres').execute(message, args);
           client.commands.get('sec').execute(message, args);
           client.commands.get('parli').execute(message, args);
-          return _context.abrupt("break", 33);
-
-        case 29:
-          client.command.get('').execute(message, args);
-          return _context.abrupt("break", 33);
+          return _context.abrupt("break", 35);
 
         case 31:
-          client.commands.get('?tres').execute(message, args);
-          return _context.abrupt("break", 33);
+          client.command.get('').execute(message, args);
+          return _context.abrupt("break", 35);
 
         case 33:
+          client.commands.get('?tres').execute(message, args);
+          return _context.abrupt("break", 35);
+
+        case 35:
         case "end":
           return _context.stop();
       }
