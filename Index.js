@@ -5,7 +5,7 @@ const { prefix } = require('./config.json');
 const { token } = require('./Token.json');
 const { kMaxLength } = require('buffer');
 const Keyv = require('keyv'); 
-const keyv = new Keyv('mongodb://user:pass@localhost:27017/SL_bot')
+const keyv = new Keyv('')
 
 const client = new Discord.Client();
 const prefixes = new Keyv('sqlite://path/to.sqlite');
